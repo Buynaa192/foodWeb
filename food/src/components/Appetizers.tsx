@@ -1,0 +1,75 @@
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
+import { FoodCard } from "./FoodCard";
+import axios from "axios";
+import { Key } from "lucide-react";
+export type foodType = {
+  _id: string;
+  foodName: string;
+  price: number;
+  category: {};
+  ingredients: string;
+  image: string;
+};
+type food = {
+  foodName: string;
+  ingredients: string;
+  price: number;
+  id: string;
+  setCartItems: Dispatch<SetStateAction<food[]>>;
+  quantity: number;
+  image: string;
+};
+type category = {
+  id: string;
+  categoryName: string;
+  setCartItems: Dispatch<SetStateAction<food[]>>;
+  cartItems: food[];
+};
+export const Appetizers = ({
+  id,
+  categoryName,
+  setCartItems,
+  cartItems,
+}: category) => {
+  const [food, setFood] = useState<foodType[]>([]);
+  useEffect(() => {
+    const getFoods = async () => {
+      const response = await axios.get(
+        `http://localhost:3001/food?categoryId=${id}`
+      );
+
+      setFood(response.data);
+    };
+    getFoods();
+  }, []);
+
+  return (
+    <div className=" w-[1280px] min-h-[270px] flex flex-col gap-13 p-10">
+      <p className="font-bold text-[30px] text-white w-[1280px]">
+        {categoryName}
+      </p>
+      <div className=" h-full grid grid-cols-3 gap-9">
+        {food.slice(0, 6).map((item) => {
+          return (
+            <FoodCard
+              key={item._id}
+              foodName={item.foodName}
+              price={item.price}
+              _id={item._id}
+              ingredients={item.ingredients}
+              setCartItems={setCartItems}
+              cartItems={cartItems}
+              image={item.image}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+};

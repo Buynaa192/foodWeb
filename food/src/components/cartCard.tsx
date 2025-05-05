@@ -1,0 +1,55 @@
+"use client";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+type food = {
+  foodName: string;
+  ingredients: string;
+  price: number;
+  id: string;
+  setCartItems: Dispatch<SetStateAction<food[]>>;
+  quantity: number;
+  image: string;
+};
+export const CartCard = ({
+  foodName,
+  ingredients,
+  price,
+  id,
+  setCartItems,
+  quantity,
+  image,
+}: food) => {
+  const deleteLocal = (idRemove: string) => {
+    const stored = JSON.parse(localStorage.getItem("foods") || "[]");
+    const update = stored.filter((item: any) => item.id !== idRemove);
+    localStorage.setItem("foods", JSON.stringify(update));
+    setCartItems(update);
+  };
+
+  return (
+    <div className="  min-h-[130px] w-full items-center flex gap-[10px] border-b-1 border-dashed ">
+      <img className="w-22 h-30 rounded-xl " src={image}></img>
+      <div className=" w-full h-full flex flex-col justify-between">
+        <div className="w-full h-15  flex justify-between">
+          <div className=" w-40">
+            <p className="text-red-500 font-bold">{foodName}</p>
+            <p className="text-[12px]">{ingredients}</p>
+          </div>
+          <button
+            onClick={() => deleteLocal(id)}
+            className="h-9 w-9 border-1 border-red-500 text-red-500 flex items-center justify-center rounded-full"
+          >
+            x
+          </button>
+        </div>
+        <div className="h-9  flex justify-between items-center">
+          <div className="w-[105px] flex gap-3">
+            <button>-</button>
+            <p className="text-[18px] font-bold">{quantity}</p>
+            <button>+</button>
+          </div>
+          <p className="font-bold ">${price}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
