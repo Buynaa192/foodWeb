@@ -7,6 +7,7 @@ import {
 } from "./adminCategorys/adminCategoties";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Loader } from "lucide-react";
 export type catType = {
   categoryName: string;
   _id: string;
@@ -15,13 +16,17 @@ export type catType = {
 export const FoodMenu = () => {
   const [category, setCategory] = useState<catType[]>([]);
   const [sellected, setSellected] = useState("");
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     getCategory();
   }, []);
 
   const getCategory = async () => {
+    setLoading(true);
     const response = await axios.get("http://localhost:3001/category");
     setCategory(response.data.categories);
+    setLoading(false);
   };
   const filteredCategory = category.filter((item) => {
     if (sellected == "") {
@@ -39,7 +44,11 @@ export const FoodMenu = () => {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </div>
-        <AdminCategories setSellected={setSellected} sellected={sellected} />
+        {loading ? (
+          <Loader size={40} className="animate-spin" />
+        ) : (
+          <AdminCategories setSellected={setSellected} sellected={sellected} />
+        )}
       </div>
       {filteredCategory.map((item) => {
         return (

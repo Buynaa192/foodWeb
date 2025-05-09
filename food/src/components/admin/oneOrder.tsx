@@ -45,7 +45,6 @@ export const OneOrder = ({
           id: orderId,
           newStatus: put,
         });
-        console.log(`Order ${orderId} updated to: ${put}`);
       } catch (error) {
         console.error("Failed to update order status:", error);
       }
@@ -82,7 +81,7 @@ export const OneOrder = ({
                         <img
                           className="w-8 h-8 object-cover"
                           src={item.food.image}
-                          alt={item.food.foodName}
+                          // alt={item.food.image}
                         />
                       </div>
                       <div className="text-[12px]">{item.food.foodName}</div>

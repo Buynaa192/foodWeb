@@ -29,6 +29,23 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Payment } from "./admin/payment";
 import axios from "axios";
 import { OrderHistory } from "./OrderHistory";
+import { add } from "date-fns";
+import { useAuth } from "./userProvider";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
 type food = {
   foodName: string;
   ingredients: string;
@@ -45,6 +62,30 @@ type cartType = {
 
 export const Header = ({ setCartItems, cartItems }: cartType) => {
   const [swtich, setSwitch] = useState(1);
+  const [open, setOpen] = useState(false);
+  const [address, setAddress] = useState("");
+  const { user, signOut, getUser } = useAuth();
+  const [userOpen, setUserOpen] = useState(false);
+  const UpdateUser = async () => {
+    if (!user) return;
+    if (!address.trim()) {
+      return;
+    }
+    try {
+      const res = await axios.put("http://localhost:3001/user/put", {
+        id: user?._id,
+        newAddress: address,
+      });
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      getUser(token);
+      // window.location.reload();
+      console.log(user);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className=" w-full h-18 flex  justify-around bg-black text-white">
       <div className="flex border-2 border-black gap-3">
@@ -74,15 +115,20 @@ export const Header = ({ setCartItems, cartItems }: cartType) => {
                 <AlertDialogFooter></AlertDialogFooter>
                 <div className="border-1 border-[#E4E4E7] w-110 h-[112px] flex items-end rounded-md">
                   <textarea
+                    onChange={(e) => setAddress(e.target.value)}
                     placeholder="Please provide specific address details such as building number, entrance, and apartment number"
                     className="w-full border-2 h-[112px] rounded-md"
                   ></textarea>
                 </div>
-
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction className="bg-black text-white">
-                  Deliver Here
-                </AlertDialogAction>
+                <div className="flex gap-4 justify-end mr-5">
+                  <AlertDialogCancel className="w-20">Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={UpdateUser}
+                    className="bg-black text-white w-30"
+                  >
+                    Deliver Here
+                  </AlertDialogAction>
+                </div>
               </AlertDialogContent>
             </AlertDialog>
           </div>
@@ -90,7 +136,7 @@ export const Header = ({ setCartItems, cartItems }: cartType) => {
           <ChevronRigth />
         </div>
         <div className="rounded-full w-9 h-9  flex items-center justify-center bg-white">
-          <Sheet>
+          <Sheet onOpenChange={setOpen} open={open}>
             <SheetTrigger>
               <Shopping />
             </SheetTrigger>
@@ -102,7 +148,7 @@ export const Header = ({ setCartItems, cartItems }: cartType) => {
                 </SheetTitle>
               </SheetHeader>
 
-              <div className="h-full m-8 mt-0 flex flex-col gap-6 text-black  ">
+              <div className="h-full m-8 mt-0 flex flex-col gap-6 text-black overflow-hidden ">
                 <div className=" h-11 rounded-full bg-white p-[4px] flex gap-2">
                   <div
                     onClick={() => {
@@ -147,23 +193,83 @@ export const Header = ({ setCartItems, cartItems }: cartType) => {
                       );
                     })}
 
-                    <div className="border-2 border-red-500 h-11 rounded-full text-red-500 flex justify-center items-center">
+                    <div
+                      onClick={() => setOpen(false)}
+                      className="border-2 border-red-500 h-11 rounded-full text-red-500 flex justify-center items-center"
+                    >
                       add food
                     </div>
                   </div>
                 )}
-                {swtich === 1 && <Payment cartItems={cartItems} />}
-                {swtich === 2 && <OrderHistory />}
+                {swtich === 1 && (
+                  <Payment cartItems={cartItems} setCartItems={setCartItems} />
+                )}
+                {swtich === 2 && <OrderHistory setOpen={setOpen} />}
               </div>
             </SheetContent>
           </Sheet>
         </div>
-        <Link href={"/login"}>
-          <div className="rounded-full w-9 h-9  bg-red-500 flex items-center justify-center">
-            <User />
-          </div>
-        </Link>
+        {/* <div className="rounded-full w-9 h-9  bg-red-500 flex items-center justify-center">
+          <User />
+        </div> */}
+        <Popover>
+          <PopoverTrigger>
+            <div className="rounded-full w-9 h-9  bg-red-500 flex items-center justify-center">
+              <User />
+            </div>
+          </PopoverTrigger>
+          <PopoverContent className="bg-white w-50">
+            {user ? (
+              <div className="w-full h-full text-black flex flex-col items-center justify-center gap-4">
+                <p className="font-bold text-min-[20px] ">{user.email}</p>
+                <button
+                  onClick={signOut}
+                  className="w-20 h-9 bg-[#F4F4F5] rounded-full"
+                >
+                  Log Out
+                </button>
+              </div>
+            ) : (
+              <div className="w-full h-full text-black flex justify-center items-center">
+                <Link href={"/login"}>
+                  <p className="font-bold text-[20px]">login</p>
+                </Link>
+              </div>
+            )}
+          </PopoverContent>
+        </Popover>
       </div>
     </div>
   );
 };
+
+// <Popover>
+//   <PopoverTrigger>
+//     <div className="rounded-full w-9 h-9  bg-red-500 flex items-center justify-center">
+//       <User />
+//     </div>
+//   </PopoverTrigger>
+//   <PopoverContent>
+//     {user ? (
+//       <div className="w-full h-full text-black flex flex-col items-center justify-center gap-4">
+//         <DialogTitle>
+//           <p className="font-bold text-max-[20px] ">{user.email}</p>
+//         </DialogTitle>
+
+//         <button
+//           onClick={signOut}
+//           className="w-20 h-9 bg-[#F4F4F5] rounded-full"
+//         >
+//           Log Out
+//         </button>
+//       </div>
+//     ) : (
+//       <div className="w-full h-full text-black flex justify-center items-center">
+//         <Link href={"/login"}>
+//           <p className="font-bold text-[20px]">login</p>
+//         </Link>
+//         <DialogTitle />
+//       </div>
+//     )}
+//   </PopoverContent>
+// </Popover>;

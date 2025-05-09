@@ -56,7 +56,7 @@ export const AdminFoodCard = ({
   const uploadImage = async (
     file: File | undefined
   ): Promise<string | null> => {
-    if (!file) return null;
+    if (!file) return image;
 
     const formData = new FormData();
     formData.append("file", file);
@@ -136,6 +136,7 @@ export const AdminFoodCard = ({
       <div className="m-4 mb-0 h-[129px] flex justify-end items-end">
         <img
           className="h-[129px] w-[239px] absolute rounded-xl "
+          defaultValue={image}
           src={image}
         ></img>
         <Dialog open={open} onOpenChange={setOpen}>
@@ -218,12 +219,14 @@ export const AdminFoodCard = ({
                     ></input>
                     {!url && (
                       <img
+                        defaultValue={image}
                         src={image}
                         className="w-full  h-full mt-2  rounded-md "
                       ></img>
                     )}
                     {url && (
                       <img
+                        defaultValue={image}
                         src={URL.createObjectURL(url)}
                         alt="Preview"
                         className="w-full  h-full mt-2  rounded-md "

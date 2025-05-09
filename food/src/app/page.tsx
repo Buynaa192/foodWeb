@@ -7,9 +7,9 @@ import { Loader } from "@/components/Loader";
 import { Menu } from "@/components/menu";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import axios from "axios";
-
 import { categoryType } from "@/components/admin/adminCategorys/adminCategoties";
 import { Loader2 } from "lucide-react";
+
 type food = {
   foodName: string;
   ingredients: string;

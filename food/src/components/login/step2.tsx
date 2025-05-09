@@ -2,34 +2,52 @@
 import { StepType } from "@/app/login/page";
 import { ChevronLeft } from "@/assets/chevronleft";
 import { useState } from "react";
+import { useAuth } from "../userProvider";
+import { error } from "console";
+import { toast } from "sonner";
 
-export const Step2 = ({ step, setStep, setValues, values }: StepType) => {
+export const Step2 = ({
+  step,
+  setStep,
+  setValues,
+  values,
+  addUser,
+}: StepType) => {
   // const [password, setPassword] = useState("");
   // const [confirmPass, setConfirmPass] = useState("");
   const [errorPass, setErrorPass] = useState("");
   const [show, setShow] = useState(false);
+  const { user } = useAuth();
   const handleCheck = () => {
-    if (!values.password || !values.confirmPassword) {
-      setErrorPass("please fill in both password fields");
-      return;
+    try {
+      if (!values.password || !values.confirmPassword) {
+        setErrorPass("please fill in both password fields");
+        return;
+      }
+      if (values.password.length < 8) {
+        setErrorPass("password bogino baina 8s deesh heregtei");
+        return;
+      }
+      const hasLetter = /[A-Za-z]/.test(values.password);
+      const hasNumber = /[0-9]/.test(values.password);
+      if (!hasLetter || !hasNumber) {
+        setErrorPass("useg too holioroi");
+        return;
+      }
+      if (values.password !== values.confirmPassword) {
+        setErrorPass("password taarahgui baina");
+        return;
+      }
+
+      setErrorPass("");
+      addUser();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setStep(step - 1);
     }
-    if (values.password.length < 8) {
-      setErrorPass("password bogino baina 8s deesh heregtei");
-      return;
-    }
-    const hasLetter = /[A-Za-z]/.test(values.password);
-    const hasNumber = /[0-9]/.test(values.password);
-    if (!hasLetter || !hasNumber) {
-      setErrorPass("useg too holioroi");
-      return;
-    }
-    if (values.password !== values.confirmPassword) {
-      setErrorPass("password taarahgui baina");
-      return;
-    }
-    setErrorPass("");
-    setStep(step + 1);
   };
+
   const handlePass = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, password: e.target.value });
   };

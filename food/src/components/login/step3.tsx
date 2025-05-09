@@ -4,22 +4,53 @@ import { ChevronLeft } from "@/assets/chevronleft";
 import Link from "next/link";
 
 import { useState } from "react";
+import { useAuth } from "../userProvider";
+
+import axios from "axios";
+
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const Step3 = ({ step, setStep, setValues, values }: StepType) => {
   const [eemail, setEemail] = useState("");
   const [paasword, setPaasword] = useState("");
   const [error, setError] = useState("");
-  const handleCheck = () => {
-    if (eemail !== values.email) {
-      setError("email taarahgui bn");
-      return;
+  const { user, setUser } = useAuth();
+  const router = useRouter();
+
+  // const handleCheck = () => {
+  //   if (eemail !== user?.email) {
+  //     setError("email taarahgui bn");
+  //     return;
+  //   }
+  //   if (paasword !== user?.password) {
+  //     setError("pass taarahgui bn");
+  //     return;
+  //   }
+
+  //   setError("");
+  // };
+
+  const signIn = async () => {
+    try {
+      const { data } = await axios.post("http://localhost:3001/auth/signin", {
+        email: eemail,
+        password: paasword,
+      });
+      console.log(data);
+
+      localStorage.setItem("token", data.token);
+      setUser(data.user);
+      if (data.user.role === "admin") {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
+    } catch (error) {
+      toast.error("failed to sign in");
     }
-    if (paasword !== values.password) {
-      setError("pass taarahgui bn");
-      return;
-    }
-    setError("");
   };
+
   return (
     <div className=" w-104 h-100 flex ml-25 gap-6 flex-col">
       <button
@@ -67,7 +98,7 @@ export const Step3 = ({ step, setStep, setValues, values }: StepType) => {
       </div>
 
       <button
-        onClick={() => handleCheck()}
+        onClick={() => signIn()}
         className="h-9 w-full border-1 rounded-md border-[#E4E4E7]"
       >
         Let's Go

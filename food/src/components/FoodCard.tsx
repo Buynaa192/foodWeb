@@ -1,8 +1,17 @@
 "use client";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Loader } from "lucide-react";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { toast } from "sonner";
+
+import { DialogTitle } from "@radix-ui/react-dialog";
+import { useAuth } from "./userProvider";
 
 type card = {
   foodName: string;
@@ -33,16 +42,26 @@ export const FoodCard = ({
   const [quantity, setQuantity] = useState(0);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isAddressEmpty, SetIsAddressEmpty] = useState<boolean>(false);
+  const { user } = useAuth();
+
   const handleAddCart = () => {
+    if (user?.address === "") {
+      SetIsAddressEmpty(true);
+      return;
+    }
+
     try {
       setLoading(true);
       const stored = JSON.parse(localStorage.getItem("foods") || "[]");
       const index = stored.findIndex((item: any) => item.id === _id);
+
       if (index > -1) {
         stored[index].quantity += quantity;
       } else {
         stored.push({ id: _id, foodName, quantity, price, ingredients, image });
       }
+
       setCartItems(stored);
       localStorage.setItem("foods", JSON.stringify(stored));
     } catch (error) {
@@ -71,6 +90,7 @@ export const FoodCard = ({
           </div>
         </div>
       </DialogTrigger>
+
       <DialogContent className="w-[826px] h-[412px]">
         <div className="bg-white rounded-[20px] flex  gap-4  w-[826px] h-[412px] absolute">
           <div className="  ">
@@ -120,6 +140,26 @@ export const FoodCard = ({
             </div>
           </div>
         </div>
+
+        {isAddressEmpty && (
+          <div className="w-full h-96 gap-10 flex flex-col items-center pt-6 z-50 bg-white">
+            <p className="font-bold text-[24px]">
+              Please select your delivery address!
+            </p>
+            <img className="w-[142px] h-[116px]" src="/images/logo.png"></img>
+
+            <button
+              onClick={() => {
+                setOpen(false);
+              }}
+              className="w-[134px] h-11 rounded-full bg-[#F4F4F5]"
+            >
+              close
+            </button>
+          </div>
+        )}
+
+        <DialogTitle></DialogTitle>
       </DialogContent>
     </Dialog>
   );

@@ -1,14 +1,16 @@
 "use client";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-type food = {
+import { Dispatch, SetStateAction } from "react";
+
+type Food = {
   foodName: string;
   ingredients: string;
   price: number;
   id: string;
-  setCartItems: Dispatch<SetStateAction<food[]>>;
+  setCartItems: Dispatch<SetStateAction<Food[]>>;
   quantity: number;
   image: string;
 };
+
 export const CartCard = ({
   foodName,
   ingredients,
@@ -17,20 +19,50 @@ export const CartCard = ({
   setCartItems,
   quantity,
   image,
-}: food) => {
+}: Food) => {
+  // Local storage-ээс мэдээллийг шинэчлэх функц
+  const updateLocalStorage = (updatedCart: Food[]) => {
+    localStorage.setItem("foods", JSON.stringify(updatedCart));
+    setCartItems(updatedCart);
+  };
+
+  // Хоол устгах
   const deleteLocal = (idRemove: string) => {
     const stored = JSON.parse(localStorage.getItem("foods") || "[]");
-    const update = stored.filter((item: any) => item.id !== idRemove);
-    localStorage.setItem("foods", JSON.stringify(update));
-    setCartItems(update);
+    const updated = stored.filter((item: any) => item.id !== idRemove);
+    updateLocalStorage(updated);
+  };
+
+  // Тоо хэмжээг нэмэх
+  const increaseQuantity = () => {
+    const stored = JSON.parse(localStorage.getItem("foods") || "[]");
+    const updated = stored.map((item: Food) => {
+      if (item.id === id) {
+        return { ...item, quantity: item.quantity + 1 };
+      }
+      return item;
+    });
+    updateLocalStorage(updated);
+  };
+
+  // Тоо хэмжээг бууруулах
+  const decreaseQuantity = () => {
+    const stored = JSON.parse(localStorage.getItem("foods") || "[]");
+    const updated = stored.map((item: Food) => {
+      if (item.id === id && item.quantity > 1) {
+        return { ...item, quantity: item.quantity - 1 };
+      }
+      return item;
+    });
+    updateLocalStorage(updated);
   };
 
   return (
-    <div className="  min-h-[130px] w-full items-center flex gap-[10px] border-b-1 border-dashed ">
-      <img className="w-22 h-30 rounded-xl " src={image}></img>
-      <div className=" w-full h-full flex flex-col justify-between">
-        <div className="w-full h-15  flex justify-between">
-          <div className=" w-40">
+    <div className="min-h-[130px] w-full items-center flex gap-[10px] border-b-1 border-dashed">
+      <img className="w-22 h-30 rounded-xl" src={image} alt={foodName}></img>
+      <div className="w-full h-full flex flex-col justify-between">
+        <div className="w-full h-15 flex justify-between">
+          <div className="w-40">
             <p className="text-red-500 font-bold">{foodName}</p>
             <p className="text-[12px]">{ingredients}</p>
           </div>
@@ -41,15 +73,77 @@ export const CartCard = ({
             x
           </button>
         </div>
-        <div className="h-9  flex justify-between items-center">
+        <div className="h-9 flex justify-between items-center">
           <div className="w-[105px] flex gap-3">
-            <button>-</button>
+            <button onClick={decreaseQuantity}>-</button>
             <p className="text-[18px] font-bold">{quantity}</p>
-            <button>+</button>
+            <button onClick={increaseQuantity}>+</button>
           </div>
-          <p className="font-bold ">${price}</p>
+          <p className="font-bold">${price}</p>
         </div>
       </div>
     </div>
   );
 };
+// "use client";
+// import { Dispatch, SetStateAction, useEffect, useState } from "react";
+// import { json } from "stream/consumers";
+// type food = {
+//   foodName: string;
+//   ingredients: string;
+//   price: number;
+//   id: string;
+//   setCartItems: Dispatch<SetStateAction<food[]>>;
+//   quantity: number;
+//   image: string;
+// };
+// export const CartCard = ({
+//   foodName,
+//   ingredients,
+//   price,
+//   id,
+//   setCartItems,
+//   quantity,
+//   image,
+// }: food) => {
+//   const deleteLocal = (idRemove: string) => {
+//     const stored = JSON.parse(localStorage.getItem("foods") || "[]");
+//     const update = stored.filter((item: any) => item.id !== idRemove);
+//     localStorage.setItem("foods", JSON.stringify(update));
+//     setCartItems(update);
+//   };
+//   const UpdateLocal = (idUpdate: string) => {
+//     const stored = JSON.parse(localStorage.getItem("foods") || "[]");
+//     const update = stored.filter((item: any) => item.id !== idUpdate);
+//     localStorage.setItem("foods", JSON.stringify(update));
+//     setCartItems(update);
+//   };
+
+//   return (
+//     <div className="  min-h-[130px] w-full items-center flex gap-[10px] border-b-1 border-dashed ">
+//       <img className="w-22 h-30 rounded-xl " src={image}></img>
+//       <div className=" w-full h-full flex flex-col justify-between">
+//         <div className="w-full h-15  flex justify-between">
+//           <div className=" w-40">
+//             <p className="text-red-500 font-bold">{foodName}</p>
+//             <p className="text-[12px]">{ingredients}</p>
+//           </div>
+//           <button
+//             onClick={() => deleteLocal(id)}
+//             className="h-9 w-9 border-1 border-red-500 text-red-500 flex items-center justify-center rounded-full"
+//           >
+//             x
+//           </button>
+//         </div>
+//         <div className="h-9  flex justify-between items-center">
+//           <div className="w-[105px] flex gap-3">
+//             <button>-</button>
+//             <p className="text-[18px] font-bold">{quantity}</p>
+//             <button>+</button>
+//           </div>
+//           <p className="font-bold ">${price}</p>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };

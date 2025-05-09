@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { OneOrder } from "../oneOrder";
 import { Tablex } from "../table";
-import { DatePickerWithRange } from "../uzjin";
+
 import axios from "axios";
 import {
   Dialog,
@@ -12,6 +12,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { DatePickerWithRange } from "@/assets/datepick";
+import { DateRange } from "react-day-picker";
+import { isWithinInterval, parseISO } from "date-fns";
+import { Loader } from "lucide-react";
 
 type orderType = {
   createdAt: string;
@@ -29,13 +33,37 @@ type orderType = {
 
 export const OrderTable = () => {
   const [orders, setOrders] = useState<orderType[]>([]);
-
+  const [dateChange, setDateChange] = useState<DateRange | undefined>();
+  const [filteredOrders, setFilteredOrders] = useState<orderType[]>([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     getOrders();
   }, []);
+
+  useEffect(() => {
+    if (!dateChange?.from || !dateChange?.to) {
+      setFilteredOrders(orders);
+      return;
+    }
+
+    if (dateChange?.from && dateChange?.to) {
+      const filtered = orders.filter((order) =>
+        isWithinInterval(parseISO(order.createdAt), {
+          start: dateChange.from!,
+          end: dateChange.to!,
+        })
+      );
+      setFilteredOrders(filtered);
+    } else {
+      setFilteredOrders(orders);
+    }
+  }, [dateChange, orders]);
+
   const getOrders = async () => {
+    setLoading(true);
     const response = await axios.get("http://localhost:3001/order");
     setOrders(response.data.order);
+    setLoading(false);
   };
 
   return (
@@ -46,7 +74,8 @@ export const OrderTable = () => {
           <p className="text-[12px]">{orders.length} items</p>
         </div>
         <div className=" h-9 w-[491px] m-4 flex gap-3 items-center">
-          <DatePickerWithRange />
+          <DatePickerWithRange value={dateChange} onChange={setDateChange} />
+
           <Dialog>
             <DialogTrigger>
               <div className="h-9 border-2 w-[179px] rounded-full flex items-center justify-center ">
@@ -79,39 +108,42 @@ export const OrderTable = () => {
       </div>
       <div className=" w-full h-[690px] grid grid-rows-13">
         <Tablex />
-        {orders.map((item, index) => {
-          return (
-            <div key={index}>
-              <OneOrder
-                totalPrice={item.totalPrice}
-                createdAt={item.createdAt}
-                status={item.status}
-                address={item.user.address}
-                email={item.user.email}
-                index={index + 1}
-                foodOrderItems={item.foodOrderItems}
-                orderId={item._id}
-              />
-            </div>
-          );
-        })}
+
+        {loading ? (
+          <Loader size={40} className="animate-spin ml-130 mt-40" />
+        ) : (
+          <div className="h-14 ">
+            {filteredOrders.map((item, index) => (
+              <div key={index} className="h-full">
+                <OneOrder
+                  totalPrice={item.totalPrice}
+                  createdAt={item.createdAt}
+                  status={item.status}
+                  address={item.user.address}
+                  email={item.user.email}
+                  index={index + 1}
+                  foodOrderItems={item.foodOrderItems}
+                  orderId={item._id}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
 };
-<Dialog>
-  <DialogTrigger>
-    <div className="h-full border-2 w-[179px] rounded-full flex items-center justify-center ">
-      Change delivery state
-    </div>
-  </DialogTrigger>
-  <DialogContent>
-    <DialogHeader>
-      <DialogTitle>Are you absolutely sure?</DialogTitle>
-      <DialogDescription>
-        This action cannot be undone. This will permanently delete your account
-        and remove your data from our servers.
-      </DialogDescription>
-    </DialogHeader>
-  </DialogContent>
-</Dialog>;
+// {loading ? <Loader size={40} className="animate-spin" /> : {filteredOrders.map((item, index) => (
+//   <div key={index}>
+//     <OneOrder
+//       totalPrice={item.totalPrice}
+//       createdAt={item.createdAt}
+//       status={item.status}
+//       address={item.user.address}
+//       email={item.user.email}
+//       index={index + 1}
+//       foodOrderItems={item.foodOrderItems}
+//       orderId={item._id}
+//     />
+//   </div>
+// ))}}

@@ -84,6 +84,14 @@ export const AddFood = ({
         toast.error("Failed to upload image.");
         return;
       }
+      if (foodName && orts === "") {
+        toast.error("orts food name buglugnu uu");
+        return;
+      }
+      if (price == 0) {
+        toast.error("unee oruulna uu");
+        return;
+      }
 
       await axios.post<FoodType>("http://localhost:3001/food/post", {
         foodName: foodName,

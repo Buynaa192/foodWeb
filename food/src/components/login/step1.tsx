@@ -2,10 +2,11 @@
 import { StepType } from "@/app/login/page";
 import { ChevronLeft } from "@/assets/chevronleft";
 import { SetStateAction, useState } from "react";
+import { useAuth } from "../userProvider";
 
 export const Step1 = ({ step, setStep, setValues, values }: StepType) => {
   const [error, setError] = useState("");
-
+  const { user } = useAuth();
   const isValidEmail = (email: string) => {
     const emailRegex =
       /[a-zA-Z]+[(a-zA-Z0-9-\\_\\.!\\D)]*[(a-zA-Z0-9)]+@[(a-zA-Z)]+\.[(a-zA-Z)]{2,3}/;
@@ -21,6 +22,7 @@ export const Step1 = ({ step, setStep, setValues, values }: StepType) => {
       setError("please enter a valid email address");
       return;
     }
+
     setError("");
     setStep(step + 1);
   };

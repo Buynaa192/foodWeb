@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { title } from "process";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { AuthProvider } from "@/components/userProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,19 +28,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    const getUser = async () => {
-      const response = await axios.get(
-        `http://localhost:3001/user/6800b35d039f8894d38c7516`
-      );
-
-      setUser(response.data.oneUser);
-    };
-    getUser();
-  }, []);
-  console.log(user);
-
   return (
     <html lang="en">
       <body
@@ -53,16 +41,21 @@ export default function RootLayout({
             className: "bg-black text-white",
           }}
         />
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
 }
-// {
-//   toast: "bg-black text-white border ",
-//   title: "text-white",
-//   description: "text-gray-300",
-//   actionButton: "bg-white text-black",
-//   cancelButton: "text-white",
-//   closeButton: "text-white",
-// }
+
+// const [user, setUser] = useState(null);
+// useEffect(() => {
+//   const getUser = async () => {
+//     const response = await axios.get(
+//       `http://localhost:3001/user/6800b35d039f8894d38c7516`
+//     );
+
+//     setUser(response.data.oneUser);
+//   };
+//   getUser();
+// }, []);
+// console.log(user);

@@ -9,6 +9,7 @@ import {
 
 import axios from "axios";
 import { Dispatch, SetStateAction, useState } from "react";
+import { useAuth } from "../userProvider";
 type food = {
   foodName: string;
   ingredients: string;
@@ -20,9 +21,11 @@ type food = {
 };
 type cartItemsType = {
   cartItems: food[];
+  setCartItems: Dispatch<SetStateAction<food[]>>;
 };
-export const Payment = ({ cartItems }: cartItemsType) => {
+export const Payment = ({ cartItems, setCartItems }: cartItemsType) => {
   const [open, setOpen] = useState(false);
+  const { user } = useAuth();
   const TOTAL = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
@@ -30,24 +33,29 @@ export const Payment = ({ cartItems }: cartItemsType) => {
 
   const addOrder = async () => {
     try {
+      if (!user) {
+        return;
+      }
       const formattedItems = cartItems.map((item) => ({
         food: item.id,
         quantity: item.quantity,
       }));
 
       const res = await axios.post("http://localhost:3001/order/post", {
-        user: "6800b35d039f8894d38c7516",
+        user: user?._id,
         foodOrderItems: formattedItems,
       });
     } catch (error) {
       console.error("error adding food", error);
+    } finally {
+      localStorage.removeItem("foods");
     }
   };
 
   return (
     <div className="border-2 min-h-[276px] rounded-[20px] bg-white p-4 flex flex-col gap-5">
       <p className="font-bold text-[20px]">Payment info</p>
-      <div>
+      <div className="">
         {cartItems.map((item, index) => {
           return (
             <div key={index} className="flex justify-between">
@@ -74,25 +82,42 @@ export const Payment = ({ cartItems }: cartItemsType) => {
           </div>
         </DialogTrigger>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="text-center">
-              Your order has been successfully placed !
-            </DialogTitle>
-          </DialogHeader>
-          <div className="w-150 h-100  flex justify-center items-center flex-col gap-12">
-            <img src="/images/illustration.png"></img>
-            <button
-              onClick={() => setOpen(false)}
-              className="bg-[#F4F4F5] w-[134px] h-11 rounded-full"
-            >
-              close
-            </button>
-          </div>
+          {user ? (
+            <div>
+              <DialogHeader>
+                <DialogTitle className="text-center">
+                  Your order has been successfully placed !
+                </DialogTitle>
+              </DialogHeader>
+              <div className="w-150 h-100  flex justify-center items-center flex-col gap-12">
+                <img src="/images/illustration.png"></img>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="bg-[#F4F4F5] w-[134px] h-11 rounded-full"
+                >
+                  close
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <DialogHeader>
+                <DialogTitle className="text-center">
+                  Нэвтэрнэ үү!!!
+                </DialogTitle>
+              </DialogHeader>
+              <div className=" w-100 h-30 flex justify-center items-center flex-col gap-12">
+                <button
+                  onClick={() => setOpen(false)}
+                  className="bg-[#F4F4F5] w-[134px] h-11 rounded-full"
+                >
+                  close
+                </button>
+              </div>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>
   );
 };
-
-// if (index > -1) {
-//   stored[index].quantity += quantity;
