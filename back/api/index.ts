@@ -1,14 +1,13 @@
 import express from "express";
-import foodRouter from "./routers/food.route";
-import categoryRouter from "./routers/catergory.route";
-import { connectToDatabase } from "./database/connect-to-db";
-import userRouter from "./routers/user.route";
-import cors from "cors";
-import orderRouter from "./routers/order.route";
 import { config } from "dotenv";
-import { authRouter } from "./routers/auth.route";
-// types/express/index.d.ts
+import cors from "cors";
 import { Request } from "express";
+import categoryRouter from "../src/routers/catergory.route";
+import foodRouter from "../src/routers/food.route";
+import userRouter from "../src/routers/user.route";
+import orderRouter from "../src/routers/order.route";
+import { authRouter } from "../src/routers/auth.route";
+import { connectToDatabase } from "../src/database/connect-to-db";
 
 declare module "express-serve-static-core" {
   interface Request {

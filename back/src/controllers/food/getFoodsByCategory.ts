@@ -13,4 +13,3 @@ export const getFoodsByCategory: RequestHandler = async (req, res) => {
     res.status(500).json({ message: "hud2" });
   }
 };
-//http://localhost:3001/food?categoryId=67ff4c1ddde837e8e9ba5276 duudhad ashihlah
