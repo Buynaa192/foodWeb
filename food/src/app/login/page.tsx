@@ -1,9 +1,7 @@
 "use client";
-import { ForgetPassword } from "@/components/login/forgetPassword";
 import { Step1 } from "@/components/login/step1";
 import { Step2 } from "@/components/login/step2";
 import { Step3 } from "@/components/login/step3";
-import { Verify } from "@/components/login/verify";
 import { useAuth } from "@/components/userProvider";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -21,7 +19,6 @@ export type DataType = {
   email: string;
   password: string;
   confirmPassword: string;
-  forgetPassword: string;
 };
 export default function Home() {
   const [step, setStep] = useState(1);
@@ -30,7 +27,6 @@ export default function Home() {
     email: "",
     password: "",
     confirmPassword: "",
-    forgetPassword: "",
   });
   const handelStep = (value: number) => {
     const LimitedValue = Math.max(1, Math.min(3, value));
@@ -48,8 +44,9 @@ export default function Home() {
       localStorage.setItem("token", data.token);
       setUser(data.user);
       Router.push("/");
-    } catch (error: any) {
-      toast.error(error.response.data.message || "Email already exists");
+    } catch (error) {
+      // toast.error(error.response.data.message || "Email already exists");
+      console.error(error);
     }
   };
 

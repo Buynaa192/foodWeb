@@ -11,8 +11,8 @@ const orderSchema = new Schema({
   foodOrderItems: { type: [orderItemSchema], default: [] },
   status: {
     type: String,
-    enum: ["pending", "cancelled", "delivered"],
-    default: "pending",
+    enum: ["Pending", "Cancelled", "Delivered"],
+    default: "Pending",
   },
 
   updatedAt: { type: Date, required: true },

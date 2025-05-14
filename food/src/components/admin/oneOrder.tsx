@@ -77,9 +77,9 @@ export const OneOrder = ({
                     className="flex gap-2.5 justify-between items-center"
                   >
                     <div className="flex gap-2.5 items-center">
-                      <div className="w-8 h-8 border-2 overflow-hidden">
+                      <div className="w-8 h-8  overflow-hidden">
                         <img
-                          className="w-8 h-8 object-cover"
+                          className="w-8 h-8 object-cover rounded-sm"
                           src={item.food.image}
                           // alt={item.food.image}
                         />
@@ -106,9 +106,9 @@ export const OneOrder = ({
       <Select onValueChange={(value) => setPut(value)} defaultValue={status}>
         <SelectTrigger
           className={`border-2 rounded-full mt-2 ${
-            put === "pending"
+            put === "Pending"
               ? "border-red-500"
-              : put === "delivered"
+              : put === "Delivered"
               ? "border-green-500"
               : "border-gray-300"
           }`}
@@ -116,9 +116,9 @@ export const OneOrder = ({
           <SelectValue placeholder={status} />
         </SelectTrigger>
         <SelectContent className="bg-white">
-          <SelectItem value="pending">pending</SelectItem>
-          <SelectItem value="delivered">delivered</SelectItem>
-          <SelectItem value="cancelled">cancelled</SelectItem>
+          <SelectItem value="Pending">Pending</SelectItem>
+          <SelectItem value="Delivered">Delivered</SelectItem>
+          <SelectItem value="Cancelled">Cancelled</SelectItem>
         </SelectContent>
       </Select>
     </div>

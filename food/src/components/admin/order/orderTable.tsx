@@ -89,13 +89,13 @@ export const OrderTable = () => {
               <div className="w-80 h-25  mt-6 flex flex-col gap-6">
                 <div className="flex gap-4 ">
                   <div className="w-[94px] h-8 rounded-full bg-[#F4F4F5] flex justify-center items-center">
-                    delivered
+                    Delivered
                   </div>
                   <div className="w-[94px] h-8 rounded-full bg-[#F4F4F5] flex justify-center items-center">
-                    pending
+                    Pending
                   </div>
                   <div className="w-[94px] h-8 rounded-full bg-[#F4F4F5] flex justify-center items-center">
-                    cancelled
+                    Cancelled
                   </div>
                 </div>
                 <div className="bg-black rounded-full flex items-center justify-center text-white h-9">

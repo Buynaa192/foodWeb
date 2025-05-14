@@ -50,26 +50,28 @@ export const Appetizers = ({
   }, []);
 
   return (
-    <div className=" w-[1280px] min-h-[270px] flex flex-col gap-13 p-10">
-      <p className="font-bold text-[30px] text-white w-[1280px]">
-        {categoryName}
-      </p>
-      <div className=" h-full grid grid-cols-3 gap-9">
-        {food.slice(0, 6).map((item) => {
-          return (
-            <FoodCard
-              key={item._id}
-              foodName={item.foodName}
-              price={item.price}
-              _id={item._id}
-              ingredients={item.ingredients}
-              setCartItems={setCartItems}
-              cartItems={cartItems}
-              image={item.image}
-            />
-          );
-        })}
-      </div>
-    </div>
+    <>
+      {food.length > 0 && (
+        <div className="w-[1280px] min-h-[270px] flex flex-col gap-13 p-10">
+          <p className="font-bold text-[30px] text-white w-[1280px]">
+            {categoryName}
+          </p>
+          <div className="h-full grid grid-cols-3 gap-9">
+            {food.slice(0, 6).map((item) => (
+              <FoodCard
+                key={item._id}
+                foodName={item.foodName}
+                price={item.price}
+                _id={item._id}
+                ingredients={item.ingredients}
+                setCartItems={setCartItems}
+                cartItems={cartItems}
+                image={item.image}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </>
   );
 };

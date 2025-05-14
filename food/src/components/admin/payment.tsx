@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useAuth } from "../userProvider";
+import { toast } from "sonner";
 type food = {
   foodName: string;
   ingredients: string;
@@ -22,9 +23,17 @@ type food = {
 type cartItemsType = {
   cartItems: food[];
   setCartItems: Dispatch<SetStateAction<food[]>>;
+  swtich: number;
+  setSwitch: Dispatch<SetStateAction<number>>;
 };
-export const Payment = ({ cartItems, setCartItems }: cartItemsType) => {
+export const Payment = ({
+  cartItems,
+  setCartItems,
+  swtich,
+  setSwitch,
+}: cartItemsType) => {
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
   const { user } = useAuth();
   const TOTAL = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -34,8 +43,14 @@ export const Payment = ({ cartItems, setCartItems }: cartItemsType) => {
   const addOrder = async () => {
     try {
       if (!user) {
+        setError("newtrene uu");
         return;
       }
+      if (cartItems.length == 0) {
+        setError("zahialga ugnu uu");
+        return;
+      }
+
       const formattedItems = cartItems.map((item) => ({
         food: item.id,
         quantity: item.quantity,
@@ -50,6 +65,11 @@ export const Payment = ({ cartItems, setCartItems }: cartItemsType) => {
     } finally {
       localStorage.removeItem("foods");
     }
+  };
+  const close = () => {
+    // localStorage.removeItem("foods");
+    // window.location.reload();
+    setSwitch(swtich + 1);
   };
 
   return (
@@ -82,7 +102,7 @@ export const Payment = ({ cartItems, setCartItems }: cartItemsType) => {
           </div>
         </DialogTrigger>
         <DialogContent>
-          {user ? (
+          {user && cartItems.length !== 0 ? (
             <div>
               <DialogHeader>
                 <DialogTitle className="text-center">
@@ -92,7 +112,7 @@ export const Payment = ({ cartItems, setCartItems }: cartItemsType) => {
               <div className="w-150 h-100  flex justify-center items-center flex-col gap-12">
                 <img src="/images/illustration.png"></img>
                 <button
-                  onClick={() => setOpen(false)}
+                  onClick={() => close()}
                   className="bg-[#F4F4F5] w-[134px] h-11 rounded-full"
                 >
                   close
@@ -102,9 +122,7 @@ export const Payment = ({ cartItems, setCartItems }: cartItemsType) => {
           ) : (
             <div>
               <DialogHeader>
-                <DialogTitle className="text-center">
-                  Нэвтэрнэ үү!!!
-                </DialogTitle>
+                <DialogTitle className="text-center">{error}!</DialogTitle>
               </DialogHeader>
               <div className=" w-100 h-30 flex justify-center items-center flex-col gap-12">
                 <button

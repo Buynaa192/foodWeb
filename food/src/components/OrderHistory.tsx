@@ -47,19 +47,21 @@ export const OrderHistory = ({ setOpen }: open) => {
       {loading ? (
         <Loader size={40} className="animate-spin" />
       ) : (
-        <div className="w-full">
+        <div className="w-full  overflow-scroll">
           {order.length > 0 ? (
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-4">
               {order.map((item, index) => {
                 return (
                   <div key={index} className=" flex flex-col gap-2.5 ">
-                    <div className="flex justify-between">
-                      <p className="font-bold">${item.totalPrice}</p>
+                    <div className="flex justify-between  items-center">
+                      <p className="font-bold text-[20px]">
+                        ${item.totalPrice}
+                      </p>
                       <p
-                        className={`border-2 rounded-full mt-2 p-1 ${
-                          item.status === "pending"
+                        className={`border-2 rounded-full mt-2 p-2 w-25 flex items-center justify-center font-bold ${
+                          item.status === "Pending"
                             ? "border-red-500"
-                            : item.status === "delivered"
+                            : item.status === "Delivered"
                             ? "border-green-500"
                             : "border-gray-300"
                         }`}

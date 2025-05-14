@@ -16,7 +16,7 @@ export const Verify = ({ values, step, setStep }: StepType) => {
         <p className="text-[24px] font-bold">Reset your password </p>
         <div className="text-[#71717A] flex flex-wrap gap-1">
           We just sent an email to
-          <p className="text-black">{values.forgetPassword}</p> Click the link
+          {/* <p className="text-black">{values.forgetPassword}</p> Click the link */}
           in the email to verify your account.
         </div>
       </div>

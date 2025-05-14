@@ -58,14 +58,21 @@ type food = {
 type cartType = {
   setCartItems: Dispatch<SetStateAction<food[]>>;
   cartItems: food[];
+  swtich: number;
+  setSwitch: Dispatch<SetStateAction<number>>;
 };
 
-export const Header = ({ setCartItems, cartItems }: cartType) => {
-  const [swtich, setSwitch] = useState(1);
+export const Header = ({
+  setCartItems,
+  cartItems,
+  swtich,
+  setSwitch,
+}: cartType) => {
+  // const [swtich, setSwitch] = useState(1);
   const [open, setOpen] = useState(false);
   const [address, setAddress] = useState("");
   const { user, signOut, getUser } = useAuth();
-  const [userOpen, setUserOpen] = useState(false);
+
   const UpdateUser = async () => {
     if (!user) return;
     if (!address.trim()) {
@@ -138,7 +145,14 @@ export const Header = ({ setCartItems, cartItems }: cartType) => {
         <div className="rounded-full w-9 h-9  flex items-center justify-center bg-white">
           <Sheet onOpenChange={setOpen} open={open}>
             <SheetTrigger>
-              <Shopping />
+              <div className="w-9 h-9 flex items-center justify-center">
+                <Shopping />
+                {cartItems.length > 0 && (
+                  <div className="bg-red-500 w-5 h-5 rounded-full absolute ml-7 mb-7 flex justify-center items-center text-[12px]">
+                    {cartItems.length}
+                  </div>
+                )}
+              </div>
             </SheetTrigger>
             <SheetContent className="bg-[#404040] text-white">
               <SheetHeader>
@@ -202,18 +216,58 @@ export const Header = ({ setCartItems, cartItems }: cartType) => {
                   </div>
                 )}
                 {swtich === 1 && (
-                  <Payment cartItems={cartItems} setCartItems={setCartItems} />
+                  <Payment
+                    cartItems={cartItems}
+                    setCartItems={setCartItems}
+                    swtich={swtich}
+                    setSwitch={setSwitch}
+                  />
                 )}
                 {swtich === 2 && <OrderHistory setOpen={setOpen} />}
               </div>
             </SheetContent>
           </Sheet>
         </div>
-        {/* <div className="rounded-full w-9 h-9  bg-red-500 flex items-center justify-center">
-          <User />
-        </div> */}
-        <Popover>
-          <PopoverTrigger>
+        {user ? (
+          <Popover>
+            <PopoverTrigger>
+              <div className="rounded-full w-9 h-9  bg-red-500 flex items-center justify-center">
+                <User />
+              </div>
+            </PopoverTrigger>
+            <PopoverContent className="bg-white w-50">
+              <div className="w-full h-full text-black flex flex-col items-center justify-center gap-4">
+                <p className="font-bold text-min-[20px] ">{user.email}</p>
+                <button
+                  onClick={signOut}
+                  className="w-20 h-9 bg-[#F4F4F5] rounded-full"
+                >
+                  Log Out
+                </button>
+              </div>
+            </PopoverContent>
+          </Popover>
+        ) : (
+          <div className="flex gap-4">
+            <Link href={"/login"}>
+              <button className="border-2 rounded-full h-10 w-20 flex items-center justify-center">
+                Login
+              </button>
+            </Link>
+            <Link href={"/login"}>
+              <button className="border-2 rounded-full h-10 w-20 flex items-center justify-center">
+                Sign up
+              </button>
+            </Link>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+{
+  /* <PopoverTrigger>
             <div className="rounded-full w-9 h-9  bg-red-500 flex items-center justify-center">
               <User />
             </div>
@@ -237,39 +291,5 @@ export const Header = ({ setCartItems, cartItems }: cartType) => {
               </div>
             )}
           </PopoverContent>
-        </Popover>
-      </div>
-    </div>
-  );
-};
-
-// <Popover>
-//   <PopoverTrigger>
-//     <div className="rounded-full w-9 h-9  bg-red-500 flex items-center justify-center">
-//       <User />
-//     </div>
-//   </PopoverTrigger>
-//   <PopoverContent>
-//     {user ? (
-//       <div className="w-full h-full text-black flex flex-col items-center justify-center gap-4">
-//         <DialogTitle>
-//           <p className="font-bold text-max-[20px] ">{user.email}</p>
-//         </DialogTitle>
-
-//         <button
-//           onClick={signOut}
-//           className="w-20 h-9 bg-[#F4F4F5] rounded-full"
-//         >
-//           Log Out
-//         </button>
-//       </div>
-//     ) : (
-//       <div className="w-full h-full text-black flex justify-center items-center">
-//         <Link href={"/login"}>
-//           <p className="font-bold text-[20px]">login</p>
-//         </Link>
-//         <DialogTitle />
-//       </div>
-//     )}
-//   </PopoverContent>
-// </Popover>;
+        </Popover> */
+}

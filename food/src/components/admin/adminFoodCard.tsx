@@ -52,6 +52,7 @@ export const AdminFoodCard = ({
   const [orts, setOrts] = useState(ingredients);
   const [url, setUrl] = useState<File | undefined>();
   const [loading, setLoading] = useState(false);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
 
   const uploadImage = async (
     file: File | undefined
@@ -80,13 +81,20 @@ export const AdminFoodCard = ({
   };
 
   useEffect(() => {
+    const getCategory = async () => {
+      const response = await axios.get("http://localhost:3001/category");
+      setCategory(response.data.categories);
+
+      const matched = response.data.categories.find(
+        (c: catType) => c.categoryName === categoryName
+      );
+      if (matched) {
+        setSelectedCategoryId(matched._id); // Set initial ID
+      }
+    };
     getCategory();
   }, []);
 
-  const getCategory = async () => {
-    const response = await axios.get("http://localhost:3001/category");
-    setCategory(response.data.categories);
-  };
   const deleteFood = async () => {
     try {
       setLoading(true);
@@ -119,13 +127,15 @@ export const AdminFoodCard = ({
         newPrice: une,
         newIngredients: orts,
         newImage: imageUrl,
+        newCategory: selectedCategoryId,
       });
+      await count();
       await getFoods();
-
       toast.success("Dish successfully updated.");
       setOpen(false);
-    } catch (error) {
+    } catch (error: any) {
       toast.error("failed");
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -166,26 +176,28 @@ export const AdminFoodCard = ({
                   <p className="text-[#71717A]">Dish category</p>
                   <div className="m-3 w-[288px]  border-1 border-[#E4E4E7] rounded-md">
                     <div className="bg-[#F4F4F5E5] h-5 w-[116px] rounded-full m-2 flex items-center pl-2.5">
-                      <Select>
+                      <Select
+                        onValueChange={(value) => {
+                          setSelectedCategoryId(value);
+                        }}
+                      >
                         <SelectTrigger>
                           <SelectValue placeholder={categoryName} />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="bg-white">
                           <div className="w-[140px] h-[268px] flex flex-col bg-white">
                             <p className="bg-[#F4F4F5] m-2 rounded-full">
                               all category
                             </p>
-                            {category.map((item) => {
-                              return (
-                                <SelectItem
-                                  className="bg-[#F4F4F5] m-2 rounded-full"
-                                  key={item._id}
-                                  value={item.categoryName}
-                                >
-                                  {item.categoryName}
-                                </SelectItem>
-                              );
-                            })}
+                            {category.map((item) => (
+                              <SelectItem
+                                className="bg-[#F4F4F5] m-2 rounded-full"
+                                key={item._id}
+                                value={item._id}
+                              >
+                                {item.categoryName}
+                              </SelectItem>
+                            ))}
                           </div>
                         </SelectContent>
                       </Select>
