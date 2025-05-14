@@ -45,6 +45,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { api } from "@/axios";
 
 type food = {
   foodName: string;
@@ -79,7 +80,7 @@ export const Header = ({
       return;
     }
     try {
-      const res = await axios.put("http://localhost:3001/user/put", {
+      const res = await api.put("/user/put", {
         id: user?._id,
         newAddress: address,
       });

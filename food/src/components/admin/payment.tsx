@@ -11,6 +11,7 @@ import axios from "axios";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useAuth } from "../userProvider";
 import { toast } from "sonner";
+import { api } from "@/axios";
 type food = {
   foodName: string;
   ingredients: string;
@@ -56,7 +57,7 @@ export const Payment = ({
         quantity: item.quantity,
       }));
 
-      const res = await axios.post("http://localhost:3001/order/post", {
+      const res = await api.post("/order/post", {
         user: user?._id,
         foodOrderItems: formattedItems,
       });

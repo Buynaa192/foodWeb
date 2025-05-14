@@ -1,4 +1,5 @@
 "use client";
+import { api } from "@/axios";
 import {
   Dialog,
   DialogContent,
@@ -93,7 +94,7 @@ export const AddFood = ({
         return;
       }
 
-      await axios.post<FoodType>("http://localhost:3001/food/post", {
+      await api.post<FoodType>("/food/post", {
         foodName: foodName,
         price: price,
         ingredients: orts,

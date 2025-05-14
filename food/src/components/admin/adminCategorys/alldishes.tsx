@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { catType } from "../menu";
+import { api } from "@/axios";
 type handle = {
   handleClickAllDishes: () => void;
   sellected: string;
@@ -11,7 +12,7 @@ export const Alldishes = ({ handleClickAllDishes, sellected }: handle) => {
     getFoods();
   }, [food.length]);
   const getFoods = async () => {
-    const res = await axios.get("http://localhost:3001/food");
+    const res = await api.get("/food");
     setFood(res.data);
   };
   return (

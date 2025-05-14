@@ -6,6 +6,7 @@ import axios from "axios";
 import { categoryName } from "../categoryBtn";
 import { AddFood } from "./addFood";
 import { catType } from "../menu";
+import { api } from "@/axios";
 type Foods = {
   price: number;
   ingredients: string;
@@ -23,16 +24,12 @@ export const AdminAppentizers = ({ categoryName, _id }: catType) => {
   }, []);
 
   const getCategoryFood = async () => {
-    const response = await axios.get(
-      `http://localhost:3001/food?categoryId=${_id}`
-    );
+    const response = await api.get(`/food?categoryId=${_id}`);
     setCategoryFood(response.data);
   };
 
   const getcount = async () => {
-    const response = await axios.get(
-      `http://localhost:3001/category/count?categoryId=${_id}`
-    );
+    const response = await api.get(`/category/count?categoryId=${_id}`);
     setCount(response.data);
   };
 

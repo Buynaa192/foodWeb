@@ -14,6 +14,7 @@ import { count } from "console";
 import { toast } from "sonner";
 import { Alldishes } from "./alldishes";
 import { catType } from "../menu";
+import { api } from "@/axios";
 export type categoryType = {
   categoryName: string;
   _id: string;
@@ -32,19 +33,16 @@ export const AdminCategories = ({ setSellected, sellected }: sellect) => {
   }, []);
 
   const getCategory = async () => {
-    const response = await axios.get("http://localhost:3001/category");
+    const response = await api.get("/category");
     setCategory(response.data.categories);
   };
 
   const addCategory = async () => {
     if (!newCategory.trim()) return;
     try {
-      const res = await axios.post<categoryType>(
-        "http://localhost:3001/category/post",
-        {
-          categoryName: newCategory,
-        }
-      );
+      const res = await api.post<categoryType>("/category/post", {
+        categoryName: newCategory,
+      });
 
       setCategory([...category, res.data]);
       setNewCategory("");

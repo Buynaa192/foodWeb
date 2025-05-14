@@ -16,6 +16,7 @@ import { DatePickerWithRange } from "@/assets/datepick";
 import { DateRange } from "react-day-picker";
 import { isWithinInterval, parseISO } from "date-fns";
 import { Loader } from "lucide-react";
+import { api } from "@/axios";
 
 type orderType = {
   createdAt: string;
@@ -61,7 +62,7 @@ export const OrderTable = () => {
 
   const getOrders = async () => {
     setLoading(true);
-    const response = await axios.get("http://localhost:3001/order");
+    const response = await api.get("/order");
     setOrders(response.data.order);
     setLoading(false);
   };
@@ -133,17 +134,3 @@ export const OrderTable = () => {
     </div>
   );
 };
-// {loading ? <Loader size={40} className="animate-spin" /> : {filteredOrders.map((item, index) => (
-//   <div key={index}>
-//     <OneOrder
-//       totalPrice={item.totalPrice}
-//       createdAt={item.createdAt}
-//       status={item.status}
-//       address={item.user.address}
-//       email={item.user.email}
-//       index={index + 1}
-//       foodOrderItems={item.foodOrderItems}
-//       orderId={item._id}
-//     />
-//   </div>
-// ))}}

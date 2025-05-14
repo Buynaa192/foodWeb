@@ -10,6 +10,7 @@ import axios from "axios";
 
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { api } from "@/axios";
 
 export const Step3 = ({ step, setStep, setValues, values }: StepType) => {
   const [eemail, setEemail] = useState("");
@@ -18,22 +19,9 @@ export const Step3 = ({ step, setStep, setValues, values }: StepType) => {
   const { user, setUser } = useAuth();
   const router = useRouter();
 
-  // const handleCheck = () => {
-  //   if (eemail !== user?.email) {
-  //     setError("email taarahgui bn");
-  //     return;
-  //   }
-  //   if (paasword !== user?.password) {
-  //     setError("pass taarahgui bn");
-  //     return;
-  //   }
-
-  //   setError("");
-  // };
-
   const signIn = async () => {
     try {
-      const { data } = await axios.post("http://localhost:3001/auth/signin", {
+      const { data } = await api.post("/auth/signin", {
         email: eemail,
         password: paasword,
       });

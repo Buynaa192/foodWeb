@@ -10,6 +10,7 @@ import {
 import { ChevronRigth } from "@/assets/chevronrigth";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import axios from "axios";
+import { api } from "@/axios";
 type categoryType = {
   _id: string;
   categoryName: string;
@@ -23,7 +24,7 @@ export const Menu = ({ setSellected, sellected }: sellect) => {
 
   useEffect(() => {
     const getCategory = async () => {
-      const response = await axios.get("http://localhost:3001/category");
+      const response = await api.get("/category");
       setCategory(response.data.categories);
     };
     getCategory();

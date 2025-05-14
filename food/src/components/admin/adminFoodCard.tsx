@@ -22,6 +22,7 @@ import { catType } from "./menu";
 import { Loader } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "../ui/sonner";
+import { api } from "@/axios";
 
 type foodType = {
   price: number;
@@ -82,7 +83,7 @@ export const AdminFoodCard = ({
 
   useEffect(() => {
     const getCategory = async () => {
-      const response = await axios.get("http://localhost:3001/category");
+      const response = await api.get("/category");
       setCategory(response.data.categories);
 
       const matched = response.data.categories.find(
@@ -98,7 +99,7 @@ export const AdminFoodCard = ({
   const deleteFood = async () => {
     try {
       setLoading(true);
-      const res = await axios.delete("http://localhost:3001/food/delete", {
+      const res = await api.delete("/food/delete", {
         data: { foodName },
       });
 
@@ -121,7 +122,7 @@ export const AdminFoodCard = ({
     }
     try {
       setLoading(true);
-      const res = await axios.put("http://localhost:3001/food/put", {
+      const res = await api.put("/food/put", {
         id: foodId,
         newFoodName: name,
         newPrice: une,

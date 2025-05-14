@@ -57,4 +57,3 @@ export const Navigation = ({ step, setStep }: StepType) => {
     </div>
   );
 };
-// rounded-full border-2 flex items-center justify-center gap-[10px]

@@ -3,6 +3,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { catType } from "./menu";
+import { api } from "@/axios";
 
 export type categoryName = {
   categoryName: string;
@@ -22,9 +23,7 @@ export const CategoryBtn = ({
   }, [catid]);
 
   const getcount = async () => {
-    const response = await axios.get(
-      `http://localhost:3001/category/count?categoryId=${catid}`
-    );
+    const response = await api.get(`/category/count?categoryId=${catid}`);
     setCount(response.data);
   };
   return (

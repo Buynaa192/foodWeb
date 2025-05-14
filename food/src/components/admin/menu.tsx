@@ -8,6 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Loader } from "lucide-react";
+import { api } from "@/axios";
 export type catType = {
   categoryName: string;
   _id: string;
@@ -24,7 +25,7 @@ export const FoodMenu = () => {
 
   const getCategory = async () => {
     setLoading(true);
-    const response = await axios.get("http://localhost:3001/category");
+    const response = await api.get("/category");
     setCategory(response.data.categories);
     setLoading(false);
   };
@@ -60,4 +61,3 @@ export const FoodMenu = () => {
     </div>
   );
 };
-// http://localhost:3001/food?categoryId=

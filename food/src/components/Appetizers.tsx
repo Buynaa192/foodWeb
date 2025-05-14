@@ -8,6 +8,7 @@ import {
 import { FoodCard } from "./FoodCard";
 import axios from "axios";
 import { Key } from "lucide-react";
+import { api } from "@/axios";
 export type foodType = {
   _id: string;
   foodName: string;
@@ -40,9 +41,7 @@ export const Appetizers = ({
   const [food, setFood] = useState<foodType[]>([]);
   useEffect(() => {
     const getFoods = async () => {
-      const response = await axios.get(
-        `http://localhost:3001/food?categoryId=${id}`
-      );
+      const response = await api.get(`/food?categoryId=${id}`);
 
       setFood(response.data);
     };

@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Chevdown } from "@/assets/chevronDown";
+import { api } from "@/axios";
 
 type ordersType = {
   createdAt: string;
@@ -41,7 +42,7 @@ export const OneOrder = ({
   useEffect(() => {
     const updateOrder = async () => {
       try {
-        await axios.put("http://localhost:3001/order/put", {
+        await api.put("/order/put", {
           id: orderId,
           newStatus: put,
         });

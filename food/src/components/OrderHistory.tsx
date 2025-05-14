@@ -7,6 +7,7 @@ import axios from "axios";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useAuth } from "./userProvider";
 import { Loader } from "lucide-react";
+import { api } from "@/axios";
 type order = {
   totalPrice: number;
   _id: string;
@@ -34,9 +35,7 @@ export const OrderHistory = ({ setOpen }: open) => {
   const getOrder = async () => {
     if (!user) return;
     setLoading(true);
-    const response = await axios.get(
-      `http://localhost:3001/order?userId=${user?._id}`
-    );
+    const response = await api.get(`/order?userId=${user?._id}`);
     setOrder(response.data.order);
     setLoading(false);
   };

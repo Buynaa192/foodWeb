@@ -8,6 +8,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import axios from "axios";
 import { categoryType } from "@/components/admin/adminCategorys/adminCategoties";
 import { Loader2 } from "lucide-react";
+import { api } from "@/axios";
 
 type food = {
   foodName: string;
@@ -37,7 +38,7 @@ export default function Home() {
   const getCategory = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:3001/category");
+      const response = await api.get("/category");
       setCategory(response.data.categories);
     } catch (error) {
       console.error(error);

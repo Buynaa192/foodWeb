@@ -4,6 +4,7 @@ import { categoryType } from "./admin/adminCategorys/adminCategoties";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
+import { api } from "@/axios";
 
 export const Footer = () => {
   const [category, setCategory] = useState<categoryType[]>([]);
@@ -12,7 +13,7 @@ export const Footer = () => {
   }, []);
 
   const getCategory = async () => {
-    const response = await axios.get("http://localhost:3001/category");
+    const response = await api.get("/category");
     setCategory(response.data.categories);
   };
   return (

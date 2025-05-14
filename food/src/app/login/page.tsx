@@ -1,4 +1,5 @@
 "use client";
+import { api } from "@/axios";
 import { Step1 } from "@/components/login/step1";
 import { Step2 } from "@/components/login/step2";
 import { Step3 } from "@/components/login/step3";
@@ -37,7 +38,7 @@ export default function Home() {
 
   const addUser = async () => {
     try {
-      const { data } = await axios.post("http://localhost:3001/user/post", {
+      const { data } = await api.post("/user/post", {
         email: values.email,
         password: values.password,
       });
@@ -45,7 +46,6 @@ export default function Home() {
       setUser(data.user);
       Router.push("/");
     } catch (error) {
-      // toast.error(error.response.data.message || "Email already exists");
       console.error(error);
     }
   };

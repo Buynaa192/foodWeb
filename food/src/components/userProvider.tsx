@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { api } from "@/axios";
 
 type user = {
   name: string;
@@ -43,11 +44,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     setLoading(true);
 
     try {
-      const { data } = await axios.get("http://localhost:3001/auth/me", {
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
+      const { data } = await api.get("/auth/me", {});
       setUser(data);
     } catch (error) {
       localStorage.removeItem("token");
