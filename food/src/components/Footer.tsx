@@ -3,7 +3,6 @@ import { Logo } from "@/assets/logo";
 import { categoryType } from "./admin/adminCategorys/adminCategoties";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import axios from "axios";
 import { api } from "@/axios";
 
 export const Footer = () => {

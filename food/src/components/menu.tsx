@@ -1,15 +1,8 @@
 import { ChevronLeft } from "@/assets/chevronleft";
-import { Card, CardContent } from "./ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "./ui/carousel";
+
 import { ChevronRigth } from "@/assets/chevronrigth";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import axios from "axios";
+
 import { api } from "@/axios";
 type categoryType = {
   _id: string;

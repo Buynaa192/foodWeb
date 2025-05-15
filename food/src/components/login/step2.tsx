@@ -2,9 +2,6 @@
 import { StepType } from "@/app/login/page";
 import { ChevronLeft } from "@/assets/chevronleft";
 import { useState } from "react";
-import { useAuth } from "../userProvider";
-import { error } from "console";
-import { toast } from "sonner";
 
 export const Step2 = ({
   step,
@@ -17,7 +14,7 @@ export const Step2 = ({
   // const [confirmPass, setConfirmPass] = useState("");
   const [errorPass, setErrorPass] = useState("");
   const [show, setShow] = useState(false);
-  const { user } = useAuth();
+
   const handleCheck = () => {
     try {
       if (!values.password || !values.confirmPassword) {
@@ -101,7 +98,7 @@ export const Step2 = ({
         onClick={() => handleCheck()}
         className="h-9 border-1 rounded-md border-[#E4E4E7]"
       >
-        Let's Go
+        Let s Go
       </button>
       <div className=" h-6 flex justify-center items-center gap-3">
         <p className="text-[#71717A]">Already have an account?</p>

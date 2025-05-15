@@ -18,27 +18,18 @@ import Link from "next/link";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { CartCard } from "./cartCard";
 import { Shop } from "@/assets/shop";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Payment } from "./admin/payment";
-import axios from "axios";
+
 import { OrderHistory } from "./OrderHistory";
-import { add } from "date-fns";
+
 import { useAuth } from "./userProvider";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 import {
   Popover,
@@ -69,7 +60,6 @@ export const Header = ({
   swtich,
   setSwitch,
 }: cartType) => {
-  // const [swtich, setSwitch] = useState(1);
   const [open, setOpen] = useState(false);
   const [address, setAddress] = useState("");
   const { user, signOut, getUser } = useAuth();
@@ -80,7 +70,7 @@ export const Header = ({
       return;
     }
     try {
-      const res = await api.put("/user/put", {
+      await api.put("/user/put", {
         id: user?._id,
         newAddress: address,
       });
@@ -266,31 +256,3 @@ export const Header = ({
     </div>
   );
 };
-
-{
-  /* <PopoverTrigger>
-            <div className="rounded-full w-9 h-9  bg-red-500 flex items-center justify-center">
-              <User />
-            </div>
-          </PopoverTrigger>
-          <PopoverContent className="bg-white w-50">
-            {user ? (
-              <div className="w-full h-full text-black flex flex-col items-center justify-center gap-4">
-                <p className="font-bold text-min-[20px] ">{user.email}</p>
-                <button
-                  onClick={signOut}
-                  className="w-20 h-9 bg-[#F4F4F5] rounded-full"
-                >
-                  Log Out
-                </button>
-              </div>
-            ) : (
-              <div className="w-full h-full text-black flex justify-center items-center">
-                <Link href={"/login"}>
-                  <p className="font-bold text-[20px]">login</p>
-                </Link>
-              </div>
-            )}
-          </PopoverContent>
-        </Popover> */
-}

@@ -1,7 +1,7 @@
-import { DataType, StepType } from "@/app/login/page";
+import { StepType } from "@/app/login/page";
 import { ChevronLeft } from "@/assets/chevronleft";
 
-export const Verify = ({ values, step, setStep }: StepType) => {
+export const Verify = ({ step, setStep }: StepType) => {
   return (
     <div className=" w-104 h-80 flex ml-25 gap-6 flex-col">
       <button

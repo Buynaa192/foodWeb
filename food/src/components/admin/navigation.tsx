@@ -5,7 +5,6 @@ import { Dash } from "@/assets/dash";
 import { Gear } from "@/assets/gear";
 import { Logo } from "@/assets/logo";
 import Link from "next/link";
-import { useState } from "react";
 
 export const Navigation = ({ step, setStep }: StepType) => {
   return (

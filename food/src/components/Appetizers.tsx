@@ -1,19 +1,12 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-  useTransition,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FoodCard } from "./FoodCard";
-import axios from "axios";
-import { Key } from "lucide-react";
+
 import { api } from "@/axios";
 export type foodType = {
   _id: string;
   foodName: string;
   price: number;
-  category: {};
+
   ingredients: string;
   image: string;
 };

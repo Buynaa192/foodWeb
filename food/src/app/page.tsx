@@ -5,7 +5,6 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Menu } from "@/components/menu";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import axios from "axios";
 import { categoryType } from "@/components/admin/adminCategorys/adminCategoties";
 import { Loader2 } from "lucide-react";
 import { api } from "@/axios";

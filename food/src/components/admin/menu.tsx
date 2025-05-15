@@ -1,12 +1,9 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AdminAppentizers } from "./adminCategorys/adminAppentizers";
-import {
-  AdminCategories,
-  categoryType,
-} from "./adminCategorys/adminCategoties";
+import { AdminCategories } from "./adminCategorys/adminCategoties";
 import { useEffect, useState } from "react";
-import axios from "axios";
+
 import { Loader } from "lucide-react";
 import { api } from "@/axios";
 export type catType = {

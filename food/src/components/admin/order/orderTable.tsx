@@ -3,11 +3,9 @@ import { useEffect, useState } from "react";
 import { OneOrder } from "../oneOrder";
 import { Tablex } from "../table";
 
-import axios from "axios";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,

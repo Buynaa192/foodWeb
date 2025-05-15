@@ -4,10 +4,9 @@ import { Step1 } from "@/components/login/step1";
 import { Step2 } from "@/components/login/step2";
 import { Step3 } from "@/components/login/step3";
 import { useAuth } from "@/components/userProvider";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
+
 export type StepType = {
   step: number;
   setStep: (value: number) => void;
@@ -97,7 +96,7 @@ export default function Home() {
           />
         )} */}
         <img
-          className="w-[856px] h-[calc(100%-40px)] m-5"
+          className="w-214 h-[calc(100%-40px)] m-5"
           src="/images/z.png"
         ></img>
       </div>

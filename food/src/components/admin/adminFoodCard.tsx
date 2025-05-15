@@ -4,13 +4,12 @@ import { Edit } from "@/assets/edit";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import axios from "axios";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -21,7 +20,7 @@ import {
 import { catType } from "./menu";
 import { Loader } from "lucide-react";
 import { toast } from "sonner";
-import { Toaster } from "../ui/sonner";
+
 import { api } from "@/axios";
 
 type foodType = {
@@ -90,7 +89,7 @@ export const AdminFoodCard = ({
         (c: catType) => c.categoryName === categoryName
       );
       if (matched) {
-        setSelectedCategoryId(matched._id); // Set initial ID
+        setSelectedCategoryId(matched._id);
       }
     };
     getCategory();
@@ -99,7 +98,7 @@ export const AdminFoodCard = ({
   const deleteFood = async () => {
     try {
       setLoading(true);
-      const res = await api.delete("/food/delete", {
+      await api.delete("/food/delete", {
         data: { foodName },
       });
 
@@ -122,7 +121,7 @@ export const AdminFoodCard = ({
     }
     try {
       setLoading(true);
-      const res = await api.put("/food/put", {
+      await api.put("/food/put", {
         id: foodId,
         newFoodName: name,
         newPrice: une,
@@ -134,7 +133,7 @@ export const AdminFoodCard = ({
       await getFoods();
       toast.success("Dish successfully updated.");
       setOpen(false);
-    } catch (error: any) {
+    } catch (error) {
       toast.error("failed");
       console.log(error);
     } finally {

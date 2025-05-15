@@ -7,13 +7,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { CategoryBtn } from "../categoryBtn";
-import axios from "axios";
+
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { count } from "console";
+
 import { toast } from "sonner";
 import { Alldishes } from "./alldishes";
-import { catType } from "../menu";
+
 import { api } from "@/axios";
 export type categoryType = {
   categoryName: string;

@@ -1,22 +1,19 @@
 "use client";
 import { StepType } from "@/app/login/page";
 import { ChevronLeft } from "@/assets/chevronleft";
-import Link from "next/link";
 
 import { useState } from "react";
 import { useAuth } from "../userProvider";
-
-import axios from "axios";
 
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { api } from "@/axios";
 
-export const Step3 = ({ step, setStep, setValues, values }: StepType) => {
+export const Step3 = ({ setStep }: StepType) => {
   const [eemail, setEemail] = useState("");
   const [paasword, setPaasword] = useState("");
-  const [error, setError] = useState("");
-  const { user, setUser } = useAuth();
+  // const [error, setError] = useState("");
+  const { setUser } = useAuth();
   const router = useRouter();
 
   const signIn = async () => {
@@ -36,6 +33,7 @@ export const Step3 = ({ step, setStep, setValues, values }: StepType) => {
       }
     } catch (error) {
       toast.error("failed to sign in");
+      console.error(error);
     }
   };
 
@@ -71,7 +69,7 @@ export const Step3 = ({ step, setStep, setValues, values }: StepType) => {
               setPaasword(e.target.value);
             }}
           ></input>
-          {error && <p className="text-red-500">{error}</p>}
+          {/* {error && <p className="text-red-500">{error}</p>} */}
         </div>
       </div>
       <div className=" h-4 flex gap-2  items-center">
@@ -89,7 +87,7 @@ export const Step3 = ({ step, setStep, setValues, values }: StepType) => {
         onClick={() => signIn()}
         className="h-9 w-full border-1 rounded-md border-[#E4E4E7]"
       >
-        Let's Go
+        Let s Go
       </button>
 
       <div className=" h-6 flex justify-center items-center gap-3">

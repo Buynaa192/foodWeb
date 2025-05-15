@@ -1,6 +1,5 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { catType } from "../menu";
+
 import { api } from "@/axios";
 type handle = {
   handleClickAllDishes: () => void;

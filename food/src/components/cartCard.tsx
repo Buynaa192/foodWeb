@@ -10,6 +10,14 @@ type Food = {
   quantity: number;
   image: string;
 };
+type local = {
+  foodName: string;
+  ingredients: string;
+  price: number;
+  id: string;
+  quantity: number;
+  image: string;
+};
 
 export const CartCard = ({
   foodName,
@@ -29,7 +37,7 @@ export const CartCard = ({
   // Хоол устгах
   const deleteLocal = (idRemove: string) => {
     const stored = JSON.parse(localStorage.getItem("foods") || "[]");
-    const updated = stored.filter((item: any) => item.id !== idRemove);
+    const updated = stored.filter((item: local) => item.id !== idRemove);
     updateLocalStorage(updated);
   };
 

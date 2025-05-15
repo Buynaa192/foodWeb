@@ -1,13 +1,7 @@
 "use client";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Loader } from "lucide-react";
-import {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 
 import { DialogTitle } from "@radix-ui/react-dialog";
@@ -28,6 +22,14 @@ type food = {
   price: number;
   id: string;
   setCartItems: Dispatch<SetStateAction<food[]>>;
+  quantity: number;
+  image: string;
+};
+type local = {
+  foodName: string;
+  ingredients: string;
+  price: number;
+  id: string;
   quantity: number;
   image: string;
 };
@@ -54,7 +56,7 @@ export const FoodCard = ({
     try {
       setLoading(true);
       const stored = JSON.parse(localStorage.getItem("foods") || "[]");
-      const index = stored.findIndex((item: any) => item.id === _id);
+      const index = stored.findIndex((item: local) => item.id === _id);
 
       if (index > -1) {
         stored[index].quantity += quantity;

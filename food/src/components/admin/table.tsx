@@ -1,14 +1,4 @@
-import { Chevdown } from "@/assets/chevronDown";
 import { Chevronud } from "@/assets/chevronud";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useState } from "react";
 
 export const Tablex = () => {
   return (

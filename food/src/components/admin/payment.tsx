@@ -7,10 +7,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import axios from "axios";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useAuth } from "../userProvider";
-import { toast } from "sonner";
+
 import { api } from "@/axios";
 type food = {
   foodName: string;
@@ -29,7 +28,7 @@ type cartItemsType = {
 };
 export const Payment = ({
   cartItems,
-  setCartItems,
+
   swtich,
   setSwitch,
 }: cartItemsType) => {
@@ -57,7 +56,7 @@ export const Payment = ({
         quantity: item.quantity,
       }));
 
-      const res = await api.post("/order/post", {
+      await api.post("/order/post", {
         user: user?._id,
         foodOrderItems: formattedItems,
       });

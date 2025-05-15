@@ -1,12 +1,11 @@
 "use client";
 import { StepType } from "@/app/login/page";
 import { ChevronLeft } from "@/assets/chevronleft";
-import { SetStateAction, useState } from "react";
-import { useAuth } from "../userProvider";
+import { useState } from "react";
 
 export const Step1 = ({ step, setStep, setValues, values }: StepType) => {
   const [error, setError] = useState("");
-  const { user } = useAuth();
+
   const isValidEmail = (email: string) => {
     const emailRegex =
       /[a-zA-Z]+[(a-zA-Z0-9-\\_\\.!\\D)]*[(a-zA-Z0-9)]+@[(a-zA-Z)]+\.[(a-zA-Z)]{2,3}/;
@@ -61,7 +60,7 @@ export const Step1 = ({ step, setStep, setValues, values }: StepType) => {
         onClick={() => handleCheck()}
         className="h-9 border-1 rounded-md border-[#E4E4E7]"
       >
-        Let's Go
+        Let s Go
       </button>
       <div className=" h-6 flex justify-center items-center gap-3">
         <p className="text-[#71717A]">Already have an account?</p>

@@ -1,8 +1,7 @@
 "use client";
 
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { catType } from "./menu";
+
 import { api } from "@/axios";
 
 export type categoryName = {
@@ -20,7 +19,7 @@ export const CategoryBtn = ({
 
   useEffect(() => {
     getcount();
-  }, [catid]);
+  }, []);
 
   const getcount = async () => {
     const response = await api.get(`/category/count?categoryId=${catid}`);

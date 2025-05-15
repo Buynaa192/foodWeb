@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+
 import {
   Select,
   SelectContent,
@@ -82,7 +82,6 @@ export const OneOrder = ({
                         <img
                           className="w-8 h-8 object-cover rounded-sm"
                           src={item.food.image}
-                          // alt={item.food.image}
                         />
                       </div>
                       <div className="text-[12px]">{item.food.foodName}</div>

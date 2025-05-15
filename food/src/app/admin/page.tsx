@@ -3,7 +3,7 @@ import { FoodMenu } from "@/components/admin/menu";
 import { Navigation } from "@/components/admin/navigation";
 import { Orders } from "@/components/admin/orders";
 import { useAuth } from "@/components/userProvider";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 export type StepType = {
   step: number;
   setStep: (value: number) => void;

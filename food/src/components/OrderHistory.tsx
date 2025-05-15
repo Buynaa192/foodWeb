@@ -3,7 +3,7 @@
 import { Food } from "@/assets/food";
 import { Map } from "@/assets/map";
 import { Time } from "@/assets/time";
-import axios from "axios";
+
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useAuth } from "./userProvider";
 import { Loader } from "lucide-react";
@@ -100,8 +100,8 @@ export const OrderHistory = ({ setOpen }: open) => {
                 <img src="/images/logo.png" className="w-15 h-[50px]"></img>
                 <p className="font-bold ">No Orders Yet? </p>
                 <p className="text-[#71717A] flex text-center">
-                  🍕 "You haven't placed any orders yet. Start exploring our
-                  menu and satisfy your cravings!"
+                  🍕 You havent placed any orders yet. Start exploring our menu
+                  and satisfy your cravings!
                 </p>
               </div>
               <div

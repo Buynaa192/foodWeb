@@ -8,10 +8,8 @@ import {
   SetStateAction,
   Dispatch,
 } from "react";
-import axios from "axios";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { api } from "@/axios";
+
+import { api, setAuthToken } from "@/axios";
 
 type user = {
   name: string;
@@ -31,36 +29,44 @@ type authContextType = {
 const authContext = createContext({} as authContextType);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-  const router = useRouter();
   const [user, setUser] = useState<user>();
   const [loading, setLoading] = useState(false);
   const signOut = async () => {
     localStorage.removeItem("token");
     localStorage.removeItem("foods");
-    window.location.reload();
+
     setUser(undefined);
   };
   const getUser = async (token: string) => {
     setLoading(true);
+    console.log(token);
 
     try {
       const { data } = await api.get("/auth/me", {});
       setUser(data);
     } catch (error) {
       localStorage.removeItem("token");
+      console.log(error);
+
       setUser(undefined);
     } finally {
       setLoading(false);
     }
   };
 
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (!token) return;
+
+  //   getUser(token);
+  // }, []);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
-
+    setAuthToken(token);
     getUser(token);
   }, []);
-
   return (
     <authContext.Provider value={{ user, signOut, setUser, getUser }}>
       {!loading && children}

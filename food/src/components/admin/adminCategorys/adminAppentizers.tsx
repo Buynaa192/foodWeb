@@ -1,9 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { AdminFoodCard } from "../adminFoodCard";
-import { categoryType } from "./adminCategoties";
-import axios from "axios";
-import { categoryName } from "../categoryBtn";
+
 import { AddFood } from "./addFood";
 import { catType } from "../menu";
 import { api } from "@/axios";
@@ -21,7 +19,7 @@ export const AdminAppentizers = ({ categoryName, _id }: catType) => {
   useEffect(() => {
     getcount();
     getCategoryFood();
-  }, []);
+  }, [count]);
 
   const getCategoryFood = async () => {
     const response = await api.get(`/food?categoryId=${_id}`);
