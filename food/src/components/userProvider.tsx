@@ -1,13 +1,5 @@
 "use client";
-import {
-  useEffect,
-  useState,
-  useContext,
-  PropsWithChildren,
-  createContext,
-  SetStateAction,
-  Dispatch,
-} from "react";
+import { useEffect, useState, useContext, PropsWithChildren, createContext, SetStateAction, Dispatch } from "react";
 
 import { api, setAuthToken } from "@/axios";
 
@@ -37,16 +29,15 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
     setUser(undefined);
   };
-  const getUser = async (token: string) => {
+  const getUser = async () => {
     setLoading(true);
-    console.log(token);
 
     try {
       const { data } = await api.get("/auth/me", {});
       setUser(data);
     } catch (error) {
       localStorage.removeItem("token");
-      console.log(error);
+      console.error(error);
 
       setUser(undefined);
     } finally {
@@ -54,23 +45,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (!token) return;
-
-  //   getUser(token);
-  // }, []);
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
     setAuthToken(token);
-    getUser(token);
+    getUser();
   }, []);
-  return (
-    <authContext.Provider value={{ user, signOut, setUser, getUser }}>
-      {!loading && children}
-    </authContext.Provider>
-  );
+  return <authContext.Provider value={{ user, signOut, setUser, getUser }}>{!loading && children}</authContext.Provider>;
 };
 export const useAuth = () => useContext(authContext);

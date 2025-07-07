@@ -12,7 +12,7 @@ import { api } from "@/axios";
 export const Step3 = ({ setStep }: StepType) => {
   const [eemail, setEemail] = useState("");
   const [paasword, setPaasword] = useState("");
-  // const [error, setError] = useState("");
+
   const { setUser } = useAuth();
   const router = useRouter();
 
@@ -25,6 +25,8 @@ export const Step3 = ({ setStep }: StepType) => {
       console.log(data);
 
       localStorage.setItem("token", data.token);
+      console.log(data.token);
+
       setUser(data.user);
       if (data.user.role === "admin") {
         router.push("/admin");
@@ -33,7 +35,6 @@ export const Step3 = ({ setStep }: StepType) => {
       }
     } catch (error) {
       toast.error("failed to sign in");
-      console.error(error);
     }
   };
 
@@ -83,10 +84,7 @@ export const Step3 = ({ setStep }: StepType) => {
         </p>
       </div>
 
-      <button
-        onClick={() => signIn()}
-        className="h-9 w-full border-1 rounded-md border-[#E4E4E7]"
-      >
+      <button onClick={() => signIn()} className="h-9 w-full border-1 rounded-md border-[#E4E4E7]">
         Let s Go
       </button>
 

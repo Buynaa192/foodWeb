@@ -1,9 +1,4 @@
-// export const deleteFood = (req, res) => {
-//   res.json([
-//     { name: "food1", price: 100 },
-//     { name: "food2", price: 200 },
-//   ]);
-// };
+
 import { RequestHandler } from "express";
 
 import { foodModel } from "../../models/food.model";

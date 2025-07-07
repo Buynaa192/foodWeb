@@ -1,9 +1,4 @@
-// export const updateCategory = (req, res) => {
-//   res.json([
-//     { name: "patch1", price: 100 },
-//     { name: "patch2", price: 200 },
-//   ]);
-// };
+
 import { RequestHandler } from "express";
 
 import { foodCategoryModel } from "../../models/foodCategory.model";
@@ -29,8 +24,4 @@ export const updateCategory: RequestHandler = async (req, res) => {
     res.status(500).json({ message: "hud2" });
   }
 };
-// if (!categoryName || !newCategoryName) {
-//   res.status(400).json({
-//     message: "both categoryName and newCategoryName are required",
-//   });
-// }
+

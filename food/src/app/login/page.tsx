@@ -50,8 +50,8 @@ export default function Home() {
   };
 
   return (
-    <div className="border-4 w-screen min-h-500 flex justify-center ">
-      <div className="w-[1440px] h-screen border-4 border-black flex gap-12 items-center">
+    <div className=" w-screen min-h-500 flex justify-center ">
+      <div className="w-[1440px] h-screen flex gap-12 items-center">
         {step === 1 && (
           <Step1
             step={step}

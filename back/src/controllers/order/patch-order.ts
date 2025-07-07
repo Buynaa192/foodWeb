@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 
-import { userModel } from "../../models/user.model";
+
 import { orderModel } from "../../models/order.model";
 
 export const patchOrder: RequestHandler = async (req, res) => {

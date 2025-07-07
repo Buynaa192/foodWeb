@@ -1,5 +1,5 @@
 export const Loader = () => {
   return (
-    <div className="w-full h-8 border-red-400 border-4 m-12 flex items-center justify-center"></div>
+    <div className="w-full h-8 border-red-400  m-12 flex items-center justify-center"></div>
   );
 };

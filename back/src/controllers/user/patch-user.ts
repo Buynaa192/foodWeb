@@ -1,9 +1,4 @@
-// export const patchUser = (req, res) => {
-//   res.json([
-//     { name: "buynaa", id: 20 },
-//     { name: "anhaa", id: 21 },
-//   ]);
-// };
+
 import { RequestHandler } from "express";
 
 import { userModel } from "../../models/user.model";

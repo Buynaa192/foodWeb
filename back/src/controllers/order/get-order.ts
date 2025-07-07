@@ -9,15 +9,4 @@ export const getOrder = async (req, res) => {
 
   return res.status(200).json({ order });
 };
-// export const getFoodsByCategory: RequestHandler = async (req, res) => {
-//   const { categoryId } = req.query;
 
-//   try {
-//     const foods = await foodModel
-//       .find(categoryId ? { category: categoryId } : {})
-//       .populate("category");
-//     res.status(200).json(foods);
-//   } catch (error) {
-//     res.status(500).json({ message: "hud2" });
-//   }
-// };

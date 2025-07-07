@@ -4,7 +4,7 @@ import { postOrder } from "../controllers/order/post-order";
 import { patchOrder } from "../controllers/order/patch-order";
 import { deleteOrder } from "../controllers/order/delete-order";
 import { getOneOrder } from "../controllers/order/getOneOrder";
-// import { getOrderCount } from "../controllers/order/getOrderCount";
+
 
 const orderRouter = Router();
 orderRouter
@@ -13,5 +13,5 @@ orderRouter
   .post("/post", postOrder)
   .put("/put", patchOrder)
   .delete("/delete", deleteOrder);
-// .get("/", getOrderCount);
+
 export default orderRouter;

@@ -23,8 +23,8 @@ export default function Home() {
   }
 
   return (
-    <div className="border-4 w-screen min-h-300 flex justify-center ">
-      <div className="min-w-[1440px] min-h-screen  border-4 border-black flex ">
+    <div className=" w-screen min-h-300 flex justify-center ">
+      <div className="min-w-[1440px] min-h-screen  flex ">
         <Navigation step={step} setStep={handelStep} />
         <div className="bg-[#F4F4F5]">
           {step === 1 && <Orders />}

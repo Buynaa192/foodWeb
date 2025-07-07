@@ -54,7 +54,7 @@ export default function Home() {
   });
 
   return (
-    <div className="border-4 w-screen min-h-500 justify-center flex bg-[#232323]">
+    <div className=" w-screen min-h-500 justify-center flex bg-[#232323]">
       <div className="w-[1440px] max-h-[5000px] ">
         <Header
           cartItems={cartItems}
